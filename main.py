@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+
 app = FastAPI()
 
 
@@ -60,6 +61,7 @@ async def listar_facturas():
 @app.post("/facturas")
 async def crear_factura(factura: Factura):
 
+    
     facturas.append(factura)
 
     return {
@@ -69,7 +71,7 @@ async def crear_factura(factura: Factura):
 
 @app.get("/facturas/{id}")
 async def obtener_factura(id: int):
-
+#rrecorrer la lista
     for factura in facturas:
         if factura.id == id:
             return factura
