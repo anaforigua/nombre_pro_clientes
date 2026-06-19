@@ -121,20 +121,20 @@ async def crear_transaccion(transaccion: Transaccion):
         "transaccion": transaccion
     }
 
-@app.get("/transacciones/{id}")
-async def obtener_transaccion(id: int):
+@app.get("/transacciones/{id_transaccion}")
+async def obtener_transaccion(id_transaccion: int):
 
     for transaccion in transacciones:
-        if transaccion.id == id:
+        if transaccion.id == id_transaccion:
             return transaccion
 
     raise HTTPException(404, "Transacción no encontrada")
 
-@app.put("/transacciones/{id}")
-async def actualizar_transaccion(id: int, datos: Transaccion):
+@app.put("/transacciones/{id_transaccion}")
+async def actualizar_transaccion(id_transaccion: int, datos: Transaccion):
 
     for i, transaccion in enumerate(transacciones):
-        if transaccion.id == id:
+        if transaccion.id == id_transaccion:
             transacciones[i] = datos
             return {
                 "mensaje": "Transacción actualizada",
@@ -143,11 +143,11 @@ async def actualizar_transaccion(id: int, datos: Transaccion):
 
     raise HTTPException(404, "Transacción no encontrada")
 
-@app.delete("/transacciones/{id}")
-async def eliminar_transaccion(id: int):
+@app.delete("/transacciones/{id_transaccion}")
+async def eliminar_transaccion(id_transaccion: int):
 
     for transaccion in transacciones:
-        if transaccion.id == id:
+        if transaccion.id == id_transaccion:
             transacciones.remove(transaccion)
             return {"mensaje": "Transacción eliminada"}
 
