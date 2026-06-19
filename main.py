@@ -22,8 +22,9 @@ async def obtener_cliente(id_cliente: int):
             return cliente
     raise HTTPException(404, "Cliente no encontrado")
 
-@app.post("/clientes")
+@app.post("/clientes,{id_cliente}")
 async def crear_cliente(cliente: Cliente):
+    cliente.id_cliente = len(cliente) + 1
     clientes.append(cliente)
     return {
         "mensaje": "Cliente creado",
@@ -63,7 +64,7 @@ async def listar_facturas():
 
 @app.post("/facturas")
 async def crear_factura(factura: Factura):
-
+    factura.id_factura= len(factura) + 1
     facturas.append(factura)
 
     return {
