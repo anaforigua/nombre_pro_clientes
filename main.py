@@ -22,10 +22,15 @@ async def obtener_cliente(id_cliente: int):
             return cliente
     raise HTTPException(404, "Cliente no encontrado")
 
-@app.post("/clientes,{id_cliente}")
-async def crear_cliente(cliente: Cliente):
-    cliente.id_cliente = len(cliente) + 1
+@app.post("/clientes")
+def crear_cliente(cliente: Cliente):
+
+    for c in clientes:
+        if c.id == cliente.id:
+            raise HTTPException(400, "El cliente ya existe")
+
     clientes.append(cliente)
+
     return {
         "mensaje": "Cliente creado",
         "cliente": cliente
@@ -63,15 +68,19 @@ async def listar_facturas():
     return facturas
 
 @app.post("/facturas")
-async def crear_factura(factura: Factura):
-    factura.id_factura= len(factura) + 1
+def crear_factura(factura: Factura):
+
+    for f in facturas:
+        if f.id == factura.id:
+            raise HTTPException(400, "La factura ya existe")
+
     facturas.append(factura)
 
     return {
         "mensaje": "Factura creada",
         "factura": factura
     }
-
+    
 @app.get("/facturas/{id_factura}")
 async def obtener_factura(id_factura: int):
 #recorrer la lista
@@ -113,7 +122,11 @@ async def listar_transacciones():
     return transacciones
 
 @app.post("/transacciones")
-async def crear_transaccion(transaccion: Transaccion):
+def crear_transaccion(transaccion: Transaccion):
+
+    for t in transacciones:
+        if t.id == transaccion.id:
+            raise HTTPException(400, "La transacción ya existe")
 
     transacciones.append(transaccion)
 
@@ -121,7 +134,7 @@ async def crear_transaccion(transaccion: Transaccion):
         "mensaje": "Transacción creada",
         "transaccion": transaccion
     }
-
+    
 @app.get("/transacciones/{id_transaccion}")
 async def obtener_transaccion(id_transaccion: int):
 
