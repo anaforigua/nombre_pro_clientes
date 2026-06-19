@@ -26,7 +26,7 @@ async def obtener_cliente(id_cliente: int):
 def crear_cliente(cliente: Cliente):
 
     for c in clientes:
-        if c.id == cliente.id:
+       if c.id_cliente == cliente.id_cliente:
             raise HTTPException(400, "El cliente ya existe")
 
     clientes.append(cliente)
@@ -71,7 +71,7 @@ async def listar_facturas():
 def crear_factura(factura: Factura):
 
     for f in facturas:
-        if f.id == factura.id:
+        if f.id_factura == factura.id_factura:
             raise HTTPException(400, "La factura ya existe")
 
     facturas.append(factura)
@@ -125,7 +125,7 @@ async def listar_transacciones():
 def crear_transaccion(transaccion: Transaccion):
 
     for t in transacciones:
-        if t.id == transaccion.id:
+       if t.id_transaccion == transaccion.id_transaccion:
             raise HTTPException(400, "La transacción ya existe")
 
     transacciones.append(transaccion)
