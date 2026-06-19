@@ -15,10 +15,10 @@ transacciones: list[Transaccion] = []
 async def listar_clientes():
     return clientes
 
-@app.get("/clientes/{id}")
-async def obtener_cliente(id: int):
+@app.get("/clientes/{id_cliente}")
+async def obtener_cliente(id_cliente: int):
     for cliente in clientes:
-        if cliente.id == id:
+        if cliente.id == id_cliente:
             return cliente
     raise HTTPException(404, "Cliente no encontrado")
 
@@ -30,11 +30,11 @@ async def crear_cliente(cliente: Cliente):
         "cliente": cliente
     }
 
-@app.put("/clientes/{id}")
-async def actualizar_cliente(id: int, datos: Cliente):
+@app.put("/clientes/{id_cliente}")
+async def actualizar_cliente(id_cliente: int, datos: Cliente):
 
     for i, cliente in enumerate(clientes):
-        if cliente.id == id:
+        if cliente.id == id_cliente:
             clientes[i] = datos
             return {
                 "mensaje": "Cliente actualizado",
@@ -43,11 +43,11 @@ async def actualizar_cliente(id: int, datos: Cliente):
 
     raise HTTPException(404, "Cliente no encontrado")
 
-@app.delete("/clientes/{id}")
-async def eliminar_cliente(id: int):
+@app.delete("/clientes/{id_cliente}")
+async def eliminar_cliente(id_cliente: int):
 
     for cliente in clientes:
-        if cliente.id == id:
+        if cliente.id == id_cliente:
             clientes.remove(cliente)
             return {"mensaje": "Cliente eliminado"}
 
@@ -71,20 +71,20 @@ async def crear_factura(factura: Factura):
         "factura": factura
     }
 
-@app.get("/facturas/{id}")
-async def obtener_factura(id: int):
+@app.get("/facturas/{id_factura}")
+async def obtener_factura(id_factura: int):
 #recorrer la lista
     for factura in facturas:
-        if factura.id == id:
+        if factura.id == id_factura:
             return factura
 
     raise HTTPException(404, "Factura no encontrada")
 
-@app.put("/facturas/{id}")
-async def actualizar_factura(id: int, datos: Factura):
+@app.put("/facturas/{id_factura}")
+async def actualizar_factura(id_factura: int, datos: Factura):
 
     for i, factura in enumerate(facturas):
-        if factura.id == id:
+        if factura.id == id_factura:
             facturas[i] = datos
             return {
                 "mensaje": "Factura actualizada",
@@ -93,11 +93,11 @@ async def actualizar_factura(id: int, datos: Factura):
 
     raise HTTPException(404, "Factura no encontrada")
 
-@app.delete("/facturas/{id}")
-async def eliminar_factura(id: int):
+@app.delete("/facturas/{id_factura}")
+async def eliminar_factura(id_factura: int):
 
     for factura in facturas:
-        if factura.id == id:
+        if factura.id == id_factura:
             facturas.remove(factura)
             return {"mensaje": "Factura eliminada"}
 
