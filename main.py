@@ -1,10 +1,13 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-
+from modelos.clientes import Cliente
+from modelos.facturas import Factura
+from modelos.transacciones import Transaccion, transacciones
 app = FastAPI()
 
 
-listar_clientes: list[cliente]=[]
+clientes: list[Cliente] = []
+facturas: list[Factura] = []
+transacciones: list[Transaccion] = []
 
 # CRUD CLIENTES
 
@@ -61,7 +64,6 @@ async def listar_facturas():
 @app.post("/facturas")
 async def crear_factura(factura: Factura):
 
-    
     facturas.append(factura)
 
     return {
@@ -71,7 +73,7 @@ async def crear_factura(factura: Factura):
 
 @app.get("/facturas/{id}")
 async def obtener_factura(id: int):
-#rrecorrer la lista
+#recorrer la lista
     for factura in facturas:
         if factura.id == id:
             return factura

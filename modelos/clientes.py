@@ -4,3 +4,4 @@ class Cliente(BaseModel):
     nombre: str
     correo: str
     descripcion: str
+clientes = []

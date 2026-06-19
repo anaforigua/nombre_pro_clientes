@@ -4,3 +4,4 @@ class Transaccion(BaseModel):
     metodo_pago: str
     monto: float  
     vr_unitario:float
+transacciones = []
