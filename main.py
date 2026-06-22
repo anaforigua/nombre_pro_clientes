@@ -28,7 +28,7 @@ def crear_cliente(cliente: Cliente):
     for c in clientes:
        if c.id_cliente == cliente.id_cliente:
             raise HTTPException(400, "El cliente ya existe")
-
+    cliente.id_cliente = len(clientes) + 1
     clientes.append(cliente)
 
     return {
@@ -73,7 +73,7 @@ def crear_factura(factura: Factura):
     for f in facturas:
         if f.id_factura == factura.id_factura:
             raise HTTPException(400, "La factura ya existe")
-
+    facturas.id_factura = len(clientes) + 1
     facturas.append(factura)
 
     return {
@@ -117,17 +117,17 @@ async def eliminar_factura(id_factura: int):
 # CRUD TRANSACCIONES
 
 
-@app.get("/transacciones")
+@app.get("/transacciones/")
 async def listar_transacciones():
     return transacciones
 
-@app.post("/transacciones")
+@app.post("/transacciones/{id_transaccion}")
 def crear_transaccion(transaccion: Transaccion):
 
     for t in transacciones:
        if t.id_transaccion == transaccion.id_transaccion:
             raise HTTPException(400, "La transacción ya existe")
-
+    transaccines.id_transaccion = len(clientes) + 1
     transacciones.append(transaccion)
 
     return {
