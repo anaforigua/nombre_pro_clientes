@@ -18,7 +18,7 @@ async def listar_clientes():
 @app.get("/clientes/{id_cliente}")
 async def obtener_cliente(id_cliente: int):
     for cliente in clientes:
-        if cliente.id == id_cliente:
+        if cliente.id_cliente == id_cliente:
             return cliente
     raise HTTPException(404, "Cliente no encontrado")
 
@@ -40,7 +40,7 @@ def crear_cliente(cliente: Cliente):
 async def actualizar_cliente(id_cliente: int, datos: Cliente):
 
     for i, cliente in enumerate(clientes):
-        if cliente.id == id_cliente:
+        if cliente.id_cliente == id_cliente:
             clientes[i] = datos
             return {
                 "mensaje": "Cliente actualizado",
@@ -53,7 +53,7 @@ async def actualizar_cliente(id_cliente: int, datos: Cliente):
 async def eliminar_cliente(id_cliente: int):
 
     for cliente in clientes:
-        if cliente.id == id_cliente:
+        if cliente.id_cliente == id_cliente:
             clientes.remove(cliente)
             return {"mensaje": "Cliente eliminado"}
 
@@ -73,7 +73,7 @@ def crear_factura(factura: Factura):
     for f in facturas:
         if f.id_factura == factura.id_factura:
             raise HTTPException(400, "La factura ya existe")
-    facturas.id_factura = len(clientes) + 1
+    factura.id_factura = len(facturas) + 1
     facturas.append(factura)
 
     return {
@@ -85,7 +85,7 @@ def crear_factura(factura: Factura):
 async def obtener_factura(id_factura: int):
 #recorrer la lista
     for factura in facturas:
-        if factura.id == id_factura:
+        if factura.id_factura == id_factura:
             return factura
 
     raise HTTPException(404, "Factura no encontrada")
@@ -94,7 +94,7 @@ async def obtener_factura(id_factura: int):
 async def actualizar_factura(id_factura: int, datos: Factura):
 
     for i, factura in enumerate(facturas):
-        if factura.id == id_factura:
+        if factura.id_factura == id_factura:
             facturas[i] = datos
             return {
                 "mensaje": "Factura actualizada",
@@ -107,7 +107,7 @@ async def actualizar_factura(id_factura: int, datos: Factura):
 async def eliminar_factura(id_factura: int):
 
     for factura in facturas:
-        if factura.id == id_factura:
+        if factura.id_factura == id_factura:
             facturas.remove(factura)
             return {"mensaje": "Factura eliminada"}
 
@@ -127,7 +127,7 @@ def crear_transaccion(transaccion: Transaccion):
     for t in transacciones:
        if t.id_transaccion == transaccion.id_transaccion:
             raise HTTPException(400, "La transacción ya existe")
-    transaccines.id_transaccion = len(clientes) + 1
+    transaccion.id_transaccion = len(transacciones) + 1
     transacciones.append(transaccion)
 
     return {
@@ -139,7 +139,7 @@ def crear_transaccion(transaccion: Transaccion):
 async def obtener_transaccion(id_transaccion: int):
 
     for transaccion in transacciones:
-        if transaccion.id == id_transaccion:
+        if transaccion.id_transaccion == id_transaccion:
             return transaccion
 
     raise HTTPException(404, "Transacción no encontrada")
@@ -148,7 +148,7 @@ async def obtener_transaccion(id_transaccion: int):
 async def actualizar_transaccion(id_transaccion: int, datos: Transaccion):
 
     for i, transaccion in enumerate(transacciones):
-        if transaccion.id == id_transaccion:
+        if transaccion.id_transaccion == id_transaccion:
             transacciones[i] = datos
             return {
                 "mensaje": "Transacción actualizada",
@@ -161,7 +161,7 @@ async def actualizar_transaccion(id_transaccion: int, datos: Transaccion):
 async def eliminar_transaccion(id_transaccion: int):
 
     for transaccion in transacciones:
-        if transaccion.id == id_transaccion:
+        if transaccion.id_transaccion == id_transaccion:
             transacciones.remove(transaccion)
             return {"mensaje": "Transacción eliminada"}
 
