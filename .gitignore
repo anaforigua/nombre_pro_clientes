@@ -1,0 +1,5 @@
+#no se deben incluir entoro virtuales
+
+.mi_env
+#pycache
+__pycache__/
