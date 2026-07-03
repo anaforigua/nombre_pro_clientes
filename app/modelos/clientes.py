@@ -18,7 +18,7 @@ class ClienteEliminar(ClienteBase):
     
 class Cliente(ClienteBase ,table=True):
     id: int| None=Field(default=None,primary_key=True)
-    ##relacion virtual con facturas
+    #relacion virtual con facturas
     factura: list["Factura"]=Relationship(back_populates="cliente")
     
 class ClienteLeer(ClienteBase):

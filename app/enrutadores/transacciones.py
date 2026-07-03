@@ -21,15 +21,20 @@ async def listar_transacciones(sesion: Sesion_dependencia):
     return sesion.exec(select(Transaccion)).all()
 #listar por id
 @rutas_transacciones.get("/transacciones/{transaccion_id}", response_model=Transaccion)
-async def listar_transaccion(transaccion_id: int):
-    for obj_transaccion in lista_transacciones:
-        if obj_transaccion.id == transaccion_id:
-            return obj_transaccion
+async def listar_transaccion(
+    transaccion_id: int,
+    mi_sesion: Sesion_dependencia
+):
 
-    raise HTTPException(
-        status_code=404,
-        detail=f"La transacción con id {transaccion_id} no existe."
-    )
+    transaccion_bd = mi_sesion.get(Transaccion, transaccion_id)
+
+    if not transaccion_bd:
+        raise HTTPException(
+            status_code=404,
+            detail=f"La transacción con id {transaccion_id} no existe."
+        )
+
+    return transaccion_bd
     
 #crear
 @rutas_transacciones.post("/transacciones/{factura_id}", response_model=Transaccion)
@@ -51,37 +56,40 @@ async def crear_transaccion(factura_id: int, datos_transaccion: TransaccionCrear
     return transaccion_val
 
 #editar
-@rutas_transacciones.patch("/transacciones/{transaccion_id}", response_model= Transaccion)
-async def editar_transaccion( transaccion_id: int, datos_transaccion:Transaccion
+@rutas_transacciones.patch("/transacciones/{transaccion_id}", response_model=Transaccion)
+async def editar_transaccion(
+    transaccion_id: int,
+    datos_transaccion: TransaccionEditar,
+    mi_sesion: Sesion_dependencia
 ):
-    for i, obj_transaccion in enumerate(lista_transacciones):
-        if obj_transaccion.id == transaccion_id:
-            transaccion_val = Transaccion.model_validate(
-                datos_transaccion.model_dump()
-            )
-            transaccion_val.id = transaccion_id
-            transaccion_val.id_factura = obj_transaccion.id_factura
+    transaccion_bd = mi_sesion.get(Transaccion, transaccion_id)
+    if not transaccion_bd:
+        raise HTTPException(
+            status_code=404,
+            detail=f"La transacción con id {transaccion_id} no existe."
+        )
 
-            lista_transacciones[i] = transaccion_val
+    transaccion_dict = datos_transaccion.model_dump(exclude_unset=True)
+    transaccion_bd.sqlmodel_update(transaccion_dict)
+    
+    mi_sesion.add(transaccion_bd)
+    mi_sesion.commit()
+    mi_sesion.refresh(transaccion_bd)
 
-            return transaccion_val
-
-    raise HTTPException(
-        status_code=404,
-        detail=f"La transacción con id {transaccion_id} no existe."
-    )
+    return transaccion_bd
 #eliminar
 @rutas_transacciones.delete("/transacciones/{transaccion_id}")
-async def eliminar_transaccion(transaccion_id: int):
-    for i, obj_transaccion in enumerate(lista_transacciones):
-        if obj_transaccion.id == transaccion_id:
-            lista_transacciones.pop(i)
+async def eliminar_transaccion(transaccion_id: int, mi_sesion: Sesion_dependencia):
 
-            return {
-                "mensaje": f"La transacción con id {transaccion_id} fue eliminada correctamente."
-            }
+    transaccion_bd = mi_sesion.get(Transaccion, transaccion_id)
 
-    raise HTTPException(
-        status_code=404,
-        detail=f"La transacción con id {transaccion_id} no existe."
-    )
+    if not transaccion_bd:
+        raise HTTPException(
+            status_code=404,
+            detail=f"La transacción con id {transaccion_id} no existe."
+        )
+
+    mi_sesion.delete(transaccion_bd)
+    mi_sesion.commit()
+
+    return transaccion_bd
