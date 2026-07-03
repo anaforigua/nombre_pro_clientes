@@ -1,59 +1,360 @@
 # Proyecto nombre_pro_clientes
 
 # Datos personales
-Nombre: Anamaria Forigua Murcia
-Ficha:3407180
+
+**Nombre:** Anamaria Forigua Murcia  
+**Ficha:** 3407180
+
+---
+
 # Descripción
-Proyecto realizado con FastAPI para mostrar un mensaje principal y una lista de clientes.
+
+Proyecto desarrollado con **FastAPI** y **SQLModel** para la gestión de clientes, facturas y transacciones utilizando una base de datos SQLite.
+
+---
+
+# Tecnologías utilizadas
+
+- Python
+- FastAPI
+- SQLModel
+- SQLite
+- Uvicorn
+- Git
+- GitHub
+- Visual Studio Code
+
+---
+
+# Proceso realizado
+
+## 1. Crear la carpeta del proyecto
+
+```bash
+mkdir nombre_pro_clientes
+cd nombre_pro_clientes
+```
+
+---
+
+## 2. Crear el entorno virtual
+
+```bash
+python -m venv .mi_env
+```
+
+---
+
+## 3. Activar el entorno virtual
+
+### Windows
+
+```bash
+.mi_env\Scripts\activate
+```
+
+---
+
+## 4. Instalar FastAPI
+
+```bash
+pip install fastapi
+```
+
+---
+
+## 5. Instalar Uvicorn
+
+```bash
+pip install "uvicorn[standard]"
+```
+
+---
+
+## 6. Instalar SQLModel
+
+```bash
+pip install sqlmodel
+```
+
+---
+
+## 7. Verificar las dependencias instaladas
+
+```bash
+pip list
+```
+
+---
+
+## 8. Generar el archivo requirements.txt
+
+```bash
+pip freeze > requirements.txt
+```
+
+---
+
+## 9. Crear la estructura del proyecto
+
+```
+nombre_pro_clientes/
+│
+├── app/
+│   ├── modelos/
+│   ├── enrutadores/
+│   ├── conexionbd.py
+│   ├── main.py
+│   └── __init__.py
+│
+├── .mi_env/
+├── requirements.txt
+├── .gitignore
+└── bd_clientes.sqlte3
+```
+
+---
+
+## 10. Ejecutar el proyecto
+
+Desde la terminal:
+
+```bash
+fastapi dev app/main.py
+```
+
+o
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+---
+
+## 11. Abrir Swagger
+
+Abrir en el navegador:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Base de datos SQLite
+
+La base de datos utilizada es:
+
+```
+bd_clientes.sqlte3
+```
+
+Crear las tablas automáticamente con SQLModel:
+
+```python
+SQLModel.metadata.create_all(motor_bd)
+```
+
+---
+
+# Comandos Git utilizados
+
+## Inicializar repositorio
+
+```bash
+git init
+```
+
+## Configurar usuario
+
+```bash
+git config --global user.name "Anamaria Forigua Murcia"
+```
+
+```bash
+git config --global user.email "correo@ejemplo.com"
+```
+
+Verificar configuración
+
+```bash
+git config --global --list
+```
+
+---
+
+## Agregar archivos
+
+```bash
+git add .
+```
+
+---
+
+## Crear el primer commit
+
+```bash
+git commit -m "Primer commit"
+```
+
+---
+
+## Agregar el repositorio remoto
+
+```bash
+git remote add origin https://github.com/anaforigua/nombre_pro_clientes.git
+```
+
+Si el remoto ya existía:
+
+```bash
+git remote set-url origin https://github.com/anaforigua/nombre_pro_clientes.git
+```
+
+---
+
+## Descargar los cambios del repositorio remoto
+
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+---
+
+## Resolver conflictos
+
+Después de editar los archivos con conflicto:
+
+```bash
+git add .
+```
+
+```bash
+git commit -m "Resolver conflictos"
+```
+
+---
+
+## Cambiar el nombre de la rama principal
+
+```bash
+git branch -M main
+```
+
+---
+
+## Subir el proyecto a GitHub
+
+```bash
+git push -u origin main
+```
+
+---
+
+## Verificar el estado del repositorio
+
+```bash
+git status
+```
+
+---
+
+## Ver historial de commits
+
+```bash
+git log --oneline
+```
+
+---
+
+# Comandos útiles de SQLModel y FastAPI
+
+## Instalar FastAPI
+
+```bash
+pip install fastapi
+```
+
+## Instalar SQLModel
+
+```bash
+pip install sqlmodel
+```
+
+## Instalar Uvicorn
+
+```bash
+pip install "uvicorn[standard]"
+```
+
+## Ejecutar el servidor
+
+```bash
+fastapi dev app/main.py
+```
+
+o
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+## Instalar todas las dependencias del proyecto
+
+```bash
+pip install -r requirements.txt
+```
+
+## Actualizar requirements.txt
+
+```bash
+pip freeze > requirements.txt
+```
+
+---
+
+# Funcionalidades desarrolladas
+
+- Gestión de clientes.
+- Gestión de facturas.
+- Gestión de transacciones.
+- Relaciones entre tablas mediante SQLModel.
+- Base de datos SQLite.
+- Documentación automática mediante Swagger.
+- API REST desarrollada con FastAPI.
+- Control de versiones utilizando Git y GitHub.
+
+---
+## Archivo principal (main.py)
+
+El archivo `main.py` es el punto de entrada de la aplicación. En él se crea la aplicación de FastAPI, se configura la creación automática de las tablas de la base de datos al iniciar el servidor y se registran las rutas correspondientes a clientes, facturas y transacciones.
+
+```python
+from fastapi import FastAPI, HTTPException, status
+from .enrutadores.clientes import rutas_clientes
+from .enrutadores.facturas import rutas_facturas
+from .enrutadores.transacciones import rutas_transacciones
+from .conexionbd import crear_tablas
+
+app = FastAPI(lifespan=crear_tablas)
+
+# Incluir rutas
+app.include_router(rutas_clientes, tags=["Clientes"])
+app.include_router(rutas_facturas, tags=["Facturas"])
+app.include_router(rutas_transacciones, tags=["Transacciones"])
+```
+
+### Explicación del código
+
+- **FastAPI:** Crea la aplicación principal.
+- **crear_tablas:** Ejecuta automáticamente la creación de las tablas de la base de datos al iniciar el proyecto.
+- **rutas_clientes:** Registra todos los endpoints relacionados con los clientes.
+- **rutas_facturas:** Registra todos los endpoints relacionados con las facturas.
+- **rutas_transacciones:** Registra todos los endpoints relacionados con las transacciones.
+- **tags:** Organiza los endpoints por categorías dentro de la documentación de Swagger (`/docs`), facilitando su navegación.
 
 
-# Proceso realizado realizado
+# Autor
 
-# 1. Crear carpeta del proyecto llamada:
-nombre_pro_clientes
-
-# 2. Crear archivo principal:
-
-main.py
-
-# 3.Escribir en el archivo principal:
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-def inicio():
-    return {"mensaje": "Este es el proyecto de clientes a desarrollar"}
-
-@app.get("/clientes")
-def  clientes():
-    clientes= ["Ana", "Edward", "Johanna", "Shakira","Maluma"]
-    return {"mensaje":clientes }
-
-Ir al terminal de visual (powershell) y digitar lo siguiente
-
-# 4. Crear entorno virtual (recomendado):
-python -m venv venv
-
-
-# 5. Activar entorno virtual:
-* Windows:
-venv\Scripts\activate
-
-# 6. Instalar dependencias:
-
-pip install fastapi uvicorn
-
-# 7. Ejecutar el proyecto
-En la terminal de Visual Studio Code (PowerShell), escribe el siguiente comando:
-fastapi dev main.py
-
-# 8. Esperar la carga del servidor
-Espera a que el servidor termine de iniciar. Una vez completado el proceso, aparecerá en la terminal el siguiente enlace:
-*server   Documentation at http://127.0.0.1:8000/docs*
-
-# 9 Abrir el enlace en el navegador
-Ubica el cursor sobre el enlace que apareció en la terminal. Luego, mantén presionada la tecla *Ctrl* y haz clic izquierdo con el mouse para abrirlo en el navegador.
-
-# 10 Explorar la documentación de FastAPI
-Se cargará la interfaz interactiva de FastAPI (Swagger UI), donde podrás visualizar, probar, modificar o eliminar los endpoints de tu proyecto.
+**Anamaria Forigua Murcia**  
+**Ficha:** 3407180
