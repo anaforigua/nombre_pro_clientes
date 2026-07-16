@@ -53,3 +53,4 @@ class FacturaLeer(FacturaBase):
 
 class FacturaLeerCompuesta(FacturaLeer):
     transacciones: list[Transaccion] = []
+    vr_total: float
